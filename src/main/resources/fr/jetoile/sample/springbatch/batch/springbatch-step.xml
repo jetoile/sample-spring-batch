@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:batch="http://www.springframework.org/schema/batch"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context
+       http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch-2.1.xsd">
+
+    <bean id="rowMapper" class="fr.jetoile.sample.springbatch.batch.reader.FooRowMapper"/>
+
+    <!-- Processor -->
+    <bean id="processor1" class="org.springframework.batch.item.support.CompositeItemProcessor">
+        <property name="delegates">
+            <list>
+                <bean class="org.springframework.batch.item.validator.ValidatingItemProcessor">
+                    <property name="validator">
+                        <bean class="fr.jetoile.sample.springbatch.batch.processor.FooValidator" />
+                    </property>
+                </bean>
+                <bean class="fr.jetoile.sample.springbatch.batch.processor.FooItemProcessor" />
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="reader1"  class="org.springframework.batch.item.database.JdbcCursorItemReader">
+        <property name="sql" value="select ID, NOM, MOTCLE from FOO where MOTCLE is not null" />
+        <property name="dataSource" ref="dataSource" />
+        <property name="rowMapper" ref="rowMapper"/>
+    </bean>
+
+    <!-- Writer -->
+    <bean id="writer1" class="org.springframework.batch.item.database.JdbcBatchItemWriter">
+        <property name="assertUpdates" value="true" />
+        <property name="itemSqlParameterSourceProvider">
+            <bean class="org.springframework.batch.item.database.BeanPropertyItemSqlParameterSourceProvider" />
+        </property>
+        <property name="sql"
+                  value="UPDATE FOO SET MOTCLE=:motcle WHERE ID=:id" />
+        <property name="dataSource" ref="dataSource" />
+    </bean>
+
+    <bean id="fooWriter" class="org.springframework.batch.item.file.FlatFileItemWriter">
+        <property name="resource" value="file:target/test-outputs/output.txt" />
+        <property name="lineAggregator">
+            <bean class="org.springframework.batch.item.file.transform.PassThroughLineAggregator"/>
+        </property>
+    </bean>
+</beans>

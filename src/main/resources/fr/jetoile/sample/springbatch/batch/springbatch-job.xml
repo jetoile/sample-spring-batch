@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:batch="http://www.springframework.org/schema/batch"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+	   http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
+	   http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch-2.1.xsd">
+
+    <import resource="classpath:/fr/jetoile/sample/springbatch/batch/springbatch-step.xml" />
+
+    <context:annotation-config />
+    <context:component-scan base-package="fr.jetoile.sample.springbatch.batch" />
+
+    <batch:job id="job" >
+        <batch:step id="step1">
+            <batch:tasklet>
+                <batch:chunk reader="reader1" writer="writer1" processor="processor1" commit-interval="${job.commit.interval}"
+                             skip-limit="${job.skip.limit}">
+                    <batch:skippable-exception-classes>
+                        <batch:include class="org.springframework.batch.item.validator.ValidationException" />
+                        <batch:include class="java.sql.SQLException" />
+                    </batch:skippable-exception-classes>
+                </batch:chunk>
+            </batch:tasklet>
+            <batch:listeners>
+                <batch:listener>
+                    <bean class="fr.jetoile.sample.springbatch.batch.ItemFailureLoggerListener"/>
+                </batch:listener>
+            </batch:listeners>
+
+        </batch:step>
+
+    </batch:job>
+
+
+    <batch:job id="foo" >
+        <batch:step id="step2">
+            <batch:tasklet>
+                <batch:chunk reader="reader1" writer="fooWriter" processor="processor1" commit-interval="${job.commit.interval}"
+                             skip-limit="${job.skip.limit}">
+                    <batch:skippable-exception-classes>
+                        <batch:include class="org.springframework.batch.item.validator.ValidationException" />
+                        <batch:include class="java.sql.SQLException" />
+                    </batch:skippable-exception-classes>
+                </batch:chunk>
+            </batch:tasklet>
+            <batch:listeners>
+                <batch:listener>
+                    <bean class="fr.jetoile.sample.springbatch.batch.ItemFailureLoggerListener"/>
+                </batch:listener>
+            </batch:listeners>
+
+        </batch:step>
+
+    </batch:job>
+
+</beans>

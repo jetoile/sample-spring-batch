@@ -1,0 +1,36 @@
+*.idea
+*.idea/**
+*.iml
+*.ipr
+target
+*.project
+*.classpath
+*.svn
+*.iws
+*.settings/**
+CucumberAnneRunner.java
+CucumberLoloRunner.java
+explorimmo-modules/explorimmo-smile/src/main/java/com/ws/generated/**
+explorimmo-modules/explorimmoneuf-webapp/src/main/webapp/assets/**
+explorimmo-modules/explorimmo-webapp/src/main/webapp/assets/**
+explorimmo-conf/src/main/resources/explorimmo-webapp/integ/etc/apache2/sites-available/**
+/home/anne/Workspace/explorimmo/explorimmo-conf/src/main/resources/explorimmo-webapp/integ/etc/apache2/sites-available/01-www.explorimmoneuf.com
+/home/anne/Workspace/explorimmo/explorimmo-conf/src/main/resources/explorimmo-webapp/integ/etc/apache2/sites-available/regles301_explo9_edito.txt
+**IS_UNDEFINED
+*_notes
+
+###
+# Compass
+explorimmo-modules/explorimmo-assets/src/main/webapp/.sass-cache/**
+
+####
+# Fitnesse
+git-windows-daily-task.bat
+explorimmo-test-modules/explorimmo-fitnesse/FitNesseRoot/ExplorimmoHome/content.txt
+explorimmo-test-modules/explorimmo-fitnesse/FitNesseRoot/ExplorimmoHome/**/*.zip
+explorimmo-test-modules/explorimmo-fitnesse/FitNesseRoot/files/**
+explorimmo-test-modules/explorimmo-fitnesse/FitNesseRoot/RecentChanges/**
+explorimmo-test-modules/explorimmo-fitnesse/FitNesseRoot/ErrorLogs/**
+explorimmo-test-modules/explorimmo-fitnesse/FitNesseRoot/updateList**
+explorimmo-test-modules/explorimmo-fitnesse/FitNesseRoot/updateDoNotCopyOverList*
+explorimmo-test-modules/explorimmo-fitnesse/velocity.log
